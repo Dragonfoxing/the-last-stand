@@ -1,0 +1,6 @@
+// Font Configuration
+//			Fonts==========================================================================================	
+//			GUI------------------------------------	Art----------------------------------------------------	
+// Set Name		File			Columns Rows	File			Columns Rows	Unicode	Mirror	Available	Resolution @ 80x60
+"MRMOEX_Rex"		cp437_8x8		16	16	MRMOTEXTEX_rexpaint	16	64	_utf8	_mirror	1	//
+"MRMOEX_Rex_x2"		cp437_16x16		16	16	MRMOTEXTEX_rexpaintx2	16	64	_utf8	_mirror	1	//

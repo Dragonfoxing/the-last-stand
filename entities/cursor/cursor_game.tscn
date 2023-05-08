@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckq5md7h0qdmq"]
+
+[ext_resource type="Texture2D" uid="uid://dxs3r8nms5a60" path="res://assets/MRMOTEXT x3 v1.1/MRMOTEXT-x3.png" id="1_myree"]
+[ext_resource type="Script" path="res://entities/cursor/cursor.gd" id="1_vbdfn"]
+
+[node name="cursor_game" type="Node2D"]
+script = ExtResource("1_vbdfn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.33, 0.33)
+texture = ExtResource("1_myree")
+region_enabled = true
+region_rect = Rect2(529, 288, 71, 72)
+region_filter_clip_enabled = true

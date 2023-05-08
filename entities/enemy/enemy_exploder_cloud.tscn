@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://00qkkh60opxb"]
+
+[ext_resource type="Texture2D" uid="uid://dxs3r8nms5a60" path="res://assets/MRMOTEXT x3 v1.1/MRMOTEXT-x3.png" id="1_t2uy2"]
+
+[node name="enemy_exploder" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.898039, 0.2, 0.294118, 1)
+texture = ExtResource("1_t2uy2")
+region_enabled = true
+region_rect = Rect2(96, 480, 24, 24)
+region_filter_clip_enabled = true
