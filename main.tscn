@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbgtoctj4aif5"]
+[gd_scene load_steps=10 format=3 uid="uid://cbgtoctj4aif5"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_epwk6"]
 [ext_resource type="PackedScene" uid="uid://dfbuxqaver7t1" path="res://entities/player/player.tscn" id="1_i15vm"]
 [ext_resource type="Texture2D" uid="uid://dxs3r8nms5a60" path="res://assets/MRMOTEXT x3 v1.1/MRMOTEXT-x3.png" id="3_n1g5c"]
 [ext_resource type="Script" path="res://Camera2DFollowTarget.gd" id="4_qb77m"]
 [ext_resource type="PackedScene" uid="uid://ckq5md7h0qdmq" path="res://entities/cursor/cursor_game.tscn" id="5_ur3us"]
+[ext_resource type="PackedScene" uid="uid://dxricl6vt22rv" path="res://entities/enemy/enemy_follower.tscn" id="6_8h6cr"]
+[ext_resource type="PackedScene" uid="uid://b5chf187yxnk3" path="res://entities/player/bullet.tscn" id="7_2s4yy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_diuv3"]
 texture = ExtResource("3_n1g5c")
@@ -171,3 +173,50 @@ target = NodePath("../Player")
 
 [node name="cursor_game" parent="." instance=ExtResource("5_ur3us")]
 position = Vector2(313, 264)
+
+[node name="bullet" parent="." instance=ExtResource("7_2s4yy")]
+position = Vector2(380, 302)
+
+[node name="enemy_follower" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(778, 87)
+target = NodePath("../Player")
+
+[node name="enemy_follower2" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(688, 202)
+target = NodePath("../Player")
+
+[node name="enemy_follower3" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(137, 231)
+target = NodePath("../Player")
+
+[node name="enemy_follower4" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(449, 87)
+target = NodePath("../Player")
+
+[node name="enemy_follower5" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(276, 146)
+target = NodePath("../Player")
+
+[node name="enemy_follower6" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(509, 239)
+target = NodePath("../Player")
+
+[node name="enemy_follower7" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(654, 418)
+target = NodePath("../Player")
+
+[node name="enemy_follower8" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(142, 451)
+target = NodePath("../Player")
+
+[node name="enemy_follower9" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(326, 415)
+target = NodePath("../Player")
+
+[node name="enemy_follower10" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(528, 419)
+target = NodePath("../Player")
+
+[node name="enemy_follower11" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
+position = Vector2(446, 519)
+target = NodePath("../Player")

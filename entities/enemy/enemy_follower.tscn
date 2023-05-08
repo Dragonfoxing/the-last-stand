@@ -1,8 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxricl6vt22rv"]
+[gd_scene load_steps=4 format=3 uid="uid://dxricl6vt22rv"]
 
+[ext_resource type="Script" path="res://entities/enemy/enemy_follower.gd" id="1_bv28l"]
 [ext_resource type="Texture2D" uid="uid://dxs3r8nms5a60" path="res://assets/MRMOTEXT x3 v1.1/MRMOTEXT-x3.png" id="1_iwgoo"]
 
-[node name="enemy_follower" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ibwbn"]
+
+[node name="enemy_follower" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_bv28l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_ibwbn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.898039, 0.2, 0.294118, 1)

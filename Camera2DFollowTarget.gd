@@ -5,4 +5,7 @@ extends Camera2D
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if(target.position != position): position = target.position
+	if(is_instance_valid(target)):
+		if(target.position != position): position = target.position
+	else:
+		set_process(false)

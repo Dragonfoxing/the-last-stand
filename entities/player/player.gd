@@ -1,35 +1,60 @@
-extends Node2D
+extends CharacterBody2D
 
 @export var width : int = 8
 @export var height : int = 8
+
+@export var speed : int = 80
 
 @export var limit : Vector2 = Vector2(800, 600)
 
 @export var sprite : Sprite2D
 
+@export var bullet_prefab : PackedScene
+
 var right : bool = false;
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
-	pass # Replace with function body.
-
-
+	set_meta("tag", "player")
+	
+func _input(event):
+	if(event.is_action_pressed("left_click") or event.is_action_pressed("ui_accept")):
+		spawn_bullet()
+	pass
+	
+func spawn_bullet():
+	var bill : CharacterBody2D = bullet_prefab.instantiate()
+	bill.position = position
+	bill.set_meta("tag", "player")
+	owner.add_child(bill)
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	var dir = Vector2(
 		Input.get_axis("ui_left", "ui_right"),
 		Input.get_axis("ui_up", "ui_down"))
 
-	var moveDelta = (dir * delta * 100)
-	position += moveDelta
+	velocity = (dir.normalized() * delta * 100 * speed)
 	
-	_check_flip_animation(moveDelta)
+	if move_and_slide(): _check_collisions()
+	
+	_check_flip_animation()
 	_check_if_moving_to_limit()
 
-func _check_flip_animation(moveDelta):
-	if(!right && moveDelta.x > 0):
+func _check_collisions():
+	var count = get_slide_collision_count()
+	
+	for i in count:
+		var col = get_slide_collision(i)
+		var collider = col.get_collider()
+		
+		if(is_instance_valid(collider) && collider.has_meta("tag") && collider.get_meta("tag") == "enemy"):
+			queue_free()
+	
+func _check_flip_animation():
+	if(!right && velocity.x > 0):
 		right = true
 		sprite.flip_h = right
-	elif(right && moveDelta.x < 0):
+	elif(right && velocity.x < 0):
 		right = false
 		sprite.flip_h = right
 	
