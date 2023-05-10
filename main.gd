@@ -2,11 +2,16 @@ extends Node2D
 
 @export var player : Node2D
 @export var camera : Camera2D
-
+@export var spawnBoundary : SpawnBoundaryBox
+@export var spawnDistance : int = 100
 var width : int = 800
 var height : int = 600
+var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
 @export var enemies : Array[PackedScene]
+
+var tick_spawn_cur : int = 0
+var tick_spawn_length : int = 30
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,8 +21,46 @@ func _reset_entities():
 	player.position = Vector2(width/2, height/2)
 	camera.position = player.position
 	
+	GameDifficulty.reset(1)
+	GameDifficulty.start()
+	
 func _spawn_entity():
-	pass
+	var count = enemies.size()
+	
+	if(count == 0):
+		return
+	else:
+		var enemyChoice = rng.randi_range(0, count-1)
+		var enemy : GameEntity2D = enemies[enemyChoice].instantiate()
+		enemy.position = _get_random_position_for_entity()
+		enemy.target = player
+		enemy.speed = enemy.speed * (1 + GameDifficulty.scale / 4)
+		add_child(enemy)
+	
+func _get_random_position_for_entity():
+	var _x = spawnBoundary.xBound
+	var _y = spawnBoundary.yBound
+	var pos = _get_random_vector_in_bounds(_x, _y)
+	
+	while((pos.x <= player.position.x + spawnDistance and pos.x >= player.position.x - spawnDistance)
+	or (pos.y <= player.position.y + spawnDistance and pos.y >= player.position.y - spawnDistance)):
+		pos = _get_random_vector_in_bounds(_x, _y)
+		
+	return pos
+
+func _get_random_vector_in_bounds(_x, _y):
+	return Vector2(rng.randf_range(_x.start, _x.end), rng.randf_range(_y.start, _y.end))
+	
+func _physics_process(delta):
+	if(is_instance_valid(player)):
+		spawnBoundary.position = player.position
+		
+		tick_spawn_cur += 1
+		if(tick_spawn_cur >= tick_spawn_length):
+			tick_spawn_cur = 0
+			if (rng.randf() >= 0.5 - clampf(((GameDifficulty.scale/2) / 20), 0, 0.5)):
+				_spawn_entity()
+		
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"): _send_quit_request()

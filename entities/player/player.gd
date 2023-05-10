@@ -21,7 +21,7 @@ func _physics_process(delta):
 		Input.get_axis("ui_left", "ui_right"),
 		Input.get_axis("ui_up", "ui_down"))
 
-	velocity = (dir.normalized() * speed)
+	velocity = (dir.normalized() * (speed * (1 + GameDifficulty.scale/8)))
 	
 	move_and_slide()
 	#if move_and_slide(): _check_collisions()

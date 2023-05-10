@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbgtoctj4aif5"]
+[gd_scene load_steps=11 format=3 uid="uid://cbgtoctj4aif5"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_epwk6"]
 [ext_resource type="PackedScene" uid="uid://dfbuxqaver7t1" path="res://entities/player/player.tscn" id="1_i15vm"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://Camera2DFollowTarget.gd" id="4_qb77m"]
 [ext_resource type="PackedScene" uid="uid://ckq5md7h0qdmq" path="res://entities/cursor/cursor_game.tscn" id="5_ur3us"]
 [ext_resource type="PackedScene" uid="uid://dxricl6vt22rv" path="res://entities/enemy/enemy_follower.tscn" id="6_8h6cr"]
+[ext_resource type="Script" path="res://GameUIController.gd" id="6_hdqc8"]
+[ext_resource type="Script" path="res://SpawnBoundaryBox.gd" id="7_y4hf6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_diuv3"]
 texture = ExtResource("3_n1g5c")
@@ -142,10 +144,12 @@ terrain_set_0/terrain_0/name = "Ground"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_diuv3")
 
-[node name="main" type="Node2D" node_paths=PackedStringArray("player", "camera")]
+[node name="main" type="Node2D" node_paths=PackedStringArray("player", "camera", "spawnBoundary")]
 script = ExtResource("1_epwk6")
 player = NodePath("Player")
 camera = NodePath("Camera2D")
+spawnBoundary = NodePath("SpawnBoundaryBox")
+spawnDistance = 150
 enemies = Array[PackedScene]([ExtResource("6_8h6cr")])
 
 [node name="Background" type="TileMap" parent="."]
@@ -159,7 +163,7 @@ layer_0/tile_data = PackedInt32Array(786448, 0, 0, 720912, 0, 0, 655376, 0, 0, 5
 [node name="Player" parent="." instance=ExtResource("1_i15vm")]
 top_level = true
 position = Vector2(400, 300)
-speed = 35
+speed = 70
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
 position = Vector2(400, 300)
@@ -170,52 +174,36 @@ limit_right = 800
 limit_bottom = 600
 limit_smoothed = true
 position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+editor_draw_limits = true
 script = ExtResource("4_qb77m")
 target = NodePath("../Player")
+
+[node name="Control" type="CanvasLayer" parent="Camera2D"]
+script = ExtResource("6_hdqc8")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="Camera2D/Control"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.133333
+theme_override_constants/separation = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="TimeLabel" type="Label" parent="Camera2D/Control/HBoxContainer"]
+layout_mode = 2
+text = "Time: "
+
+[node name="DifficultyLabel" type="Label" parent="Camera2D/Control/HBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Difficulty:"
+
+[node name="ScoreLabel" type="Label" parent="Camera2D/Control/HBoxContainer"]
+layout_mode = 2
+text = "Score:"
 
 [node name="cursor_game" parent="." instance=ExtResource("5_ur3us")]
 position = Vector2(313, 264)
 
-[node name="enemy_follower" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(778, 87)
-target = NodePath("../Player")
-
-[node name="enemy_follower2" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(688, 202)
-target = NodePath("../Player")
-
-[node name="enemy_follower3" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(137, 231)
-target = NodePath("../Player")
-
-[node name="enemy_follower4" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(449, 87)
-target = NodePath("../Player")
-
-[node name="enemy_follower5" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(276, 146)
-target = NodePath("../Player")
-
-[node name="enemy_follower6" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(509, 239)
-target = NodePath("../Player")
-
-[node name="enemy_follower7" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(654, 418)
-target = NodePath("../Player")
-
-[node name="enemy_follower8" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(142, 451)
-target = NodePath("../Player")
-
-[node name="enemy_follower9" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(326, 415)
-target = NodePath("../Player")
-
-[node name="enemy_follower10" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(528, 419)
-target = NodePath("../Player")
-
-[node name="enemy_follower11" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_8h6cr")]
-position = Vector2(446, 519)
-target = NodePath("../Player")
+[node name="SpawnBoundaryBox" type="Marker2D" parent="."]
+script = ExtResource("7_y4hf6")

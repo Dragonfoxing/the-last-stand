@@ -1,7 +1,8 @@
 extends GameEntity2D
 
 @export var target : Node2D
-@export var speed : int = 40
+@export var speed : float = 40
+var dead : bool = false
 
 func _ready():
 	team = "enemy"
@@ -15,22 +16,30 @@ func _physics_process(delta):
 		# let's try it without! :D
 		velocity = dir * delta * speed
 		
+		# move ourself and check if we collided with anything
 		var collided = move_and_slide()
 		
 		if(collided):
+			# get the number of collisions and start looping through them for relevant tags
 			var count = get_slide_collision_count()
 			
 			for i in count:
 				var col = get_slide_collision(i)
 				
-				# Using set_meta to set tags, we can avoid getting full groups of objects
-				# and just check the object metadata for the tag we're looking for.
-				
 				var collider = col.get_collider() as GameEntity2D
 				
-				if(is_instance_valid(collider)):
+				# There was a bug with just doing queue_free() - it will still
+				# loop through other collision checks b/c it's not quite gone yet.
+				# so we use `and not dead` to make sure we don't duplicate score or calls.
+				
+				if(is_instance_valid(collider) and not dead):
 					if(collider.tag == "bullet" or collider.team == "player"):
+						if(collider.tag == "bullet"):
+							GameDifficulty.add_score(1)
+							
 						collider.emit_signal("Collided", self)
+						
+						dead = true
 						queue_free()
 				
 	else:
@@ -38,5 +47,6 @@ func _physics_process(delta):
 		# in more complicated cases, we want alternate behavior rather than this.
 		set_physics_process(false)
 
+# all of our logic is in physics_process so we don't need code here.
 func _on_collided(obj : GameEntity2D):
 	pass

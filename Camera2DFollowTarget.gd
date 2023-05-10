@@ -3,6 +3,8 @@ extends Camera2D
 
 @export var target : Node2D
 
+var visual_boundary : RectangleShape2D
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if(is_instance_valid(target)):
