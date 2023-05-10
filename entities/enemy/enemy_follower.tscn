@@ -6,11 +6,9 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ibwbn"]
 
 [node name="enemy_follower" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 8
+collision_mask = 15
 script = ExtResource("1_bv28l")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 3)
-shape = SubResource("CircleShape2D_ibwbn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.898039, 0.2, 0.294118, 1)
@@ -18,3 +16,7 @@ texture = ExtResource("1_iwgoo")
 region_enabled = true
 region_rect = Rect2(72, 264, 24, 24)
 region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_ibwbn")

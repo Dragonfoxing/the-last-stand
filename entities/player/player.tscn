@@ -1,16 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfbuxqaver7t1"]
+[gd_scene load_steps=7 format=3 uid="uid://dfbuxqaver7t1"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_clqcy"]
 [ext_resource type="Texture2D" uid="uid://dxs3r8nms5a60" path="res://assets/MRMOTEXT x3 v1.1/MRMOTEXT-x3.png" id="2_8etoc"]
 [ext_resource type="PackedScene" uid="uid://b5chf187yxnk3" path="res://entities/player/bullet.tscn" id="2_gb87y"]
+[ext_resource type="Script" path="res://entities/player/Gun.gd" id="4_arcya"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_707yt"]
 size = Vector2(14, 14)
 
+[sub_resource type="LabelSettings" id="LabelSettings_i66he"]
+font_size = 12
+
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite") groups=["player"]]
+collision_layer = 2
+collision_mask = 25
 script = ExtResource("1_clqcy")
 sprite = NodePath("Sprites/Sprite2D")
-bullet_prefab = ExtResource("2_gb87y")
 
 [node name="Sprites" type="Node2D" parent="."]
 
@@ -18,9 +23,21 @@ bullet_prefab = ExtResource("2_gb87y")
 scale = Vector2(0.667, 0.667)
 texture = ExtResource("2_8etoc")
 region_enabled = true
-region_rect = Rect2(336, 600, 24, 24)
+region_rect = Rect2(340, 603, 20, 20)
 region_filter_clip_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_707yt")
+
+[node name="Gun" type="Node2D" parent="."]
+script = ExtResource("4_arcya")
+bullet_prefab = ExtResource("2_gb87y")
+
+[node name="Label" type="Label" parent="Gun"]
+offset_left = -3.0
+offset_top = 2.0
+offset_right = 4.0
+offset_bottom = 28.0
+text = "6"
+label_settings = SubResource("LabelSettings_i66he")
+horizontal_alignment = 1

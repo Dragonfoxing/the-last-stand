@@ -4,14 +4,17 @@
 [ext_resource type="Script" path="res://entities/player/bullet.gd" id="1_lj5qm"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_54vnm"]
-radius = 6.0
-height = 18.0
+radius = 2.0
+height = 8.0
 
 [node name="bullet" type="CharacterBody2D"]
+collision_layer = 0
 slide_on_ceiling = false
 script = ExtResource("1_lj5qm")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.19209e-07, 0)
+scale = Vector2(0.385, 0.33)
 texture = ExtResource("1_16cof")
 region_enabled = true
 region_rect = Rect2(576, 408, 24, 24)
