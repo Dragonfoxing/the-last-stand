@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsd7j140lneba"]
+
+[ext_resource type="Script" path="res://lib/EffectsManager.gd" id="1_gh0pn"]
+
+[node name="EffectsManager" type="Node2D"]
+script = ExtResource("1_gh0pn")

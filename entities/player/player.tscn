@@ -1,33 +1,33 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfbuxqaver7t1"]
+[gd_scene load_steps=8 format=3 uid="uid://dfbuxqaver7t1"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_clqcy"]
-[ext_resource type="Texture2D" uid="uid://dxs3r8nms5a60" path="res://assets/MRMOTEXT x3 v1.1/MRMOTEXT-x3.png" id="2_8etoc"]
 [ext_resource type="PackedScene" uid="uid://b5chf187yxnk3" path="res://entities/player/bullet.tscn" id="2_gb87y"]
+[ext_resource type="Texture2D" uid="uid://dtl6fw1pxrbh0" path="res://assets/processed/TheLastStandREXPAINT.png" id="2_qxewj"]
+[ext_resource type="PackedScene" uid="uid://bel8m3xay7wtg" path="res://entities/player/player_tombstone.tscn" id="2_tqxtg"]
 [ext_resource type="Script" path="res://entities/player/Gun.gd" id="4_arcya"]
+[ext_resource type="LabelSettings" uid="uid://qca0oki7xds" path="res://assets/new_label_settings.tres" id="5_dexl0"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_707yt"]
-size = Vector2(14, 14)
-
-[sub_resource type="LabelSettings" id="LabelSettings_i66he"]
-font_size = 12
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pgsga"]
+radius = 6.0
+height = 14.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite") groups=["player"]]
 collision_layer = 2
 collision_mask = 25
 script = ExtResource("1_clqcy")
 sprite = NodePath("Sprites/Sprite2D")
+player_death_effect = ExtResource("2_tqxtg")
 
 [node name="Sprites" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Sprites"]
-scale = Vector2(0.667, 0.667)
-texture = ExtResource("2_8etoc")
+texture = ExtResource("2_qxewj")
 region_enabled = true
-region_rect = Rect2(340, 603, 20, 20)
+region_rect = Rect2(0, 48, 18, 18)
 region_filter_clip_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_707yt")
+shape = SubResource("CapsuleShape2D_pgsga")
 
 [node name="Gun" type="Node2D" parent="."]
 script = ExtResource("4_arcya")
@@ -39,5 +39,5 @@ offset_top = 2.0
 offset_right = 4.0
 offset_bottom = 28.0
 text = "6"
-label_settings = SubResource("LabelSettings_i66he")
+label_settings = ExtResource("5_dexl0")
 horizontal_alignment = 1

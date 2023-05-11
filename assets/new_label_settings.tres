@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://qca0oki7xds"]
+
+[ext_resource type="FontFile" uid="uid://c44j3iaivab0m" path="res://assets/fonts/BitPotion.ttf" id="1_g8db5"]
+
+[resource]
+font = ExtResource("1_g8db5")
+font_size = 24

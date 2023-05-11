@@ -9,6 +9,9 @@ extends GameEntity2D
 
 @export var sprite : Sprite2D
 
+@export var god_mode : bool = false
+
+@export var player_death_effect : PackedScene
 var right : bool = false;
 
 func _ready():
@@ -52,5 +55,6 @@ func _check_if_moving_to_limit():
 	elif(position.y > limit.y - height): position.y = limit.y - height;
 
 func _on_collided(obj : GameEntity2D):
-	if(obj.team == "enemy"):
+	if(obj.team == "enemy" and not god_mode):
+		GameSignals.emit_signal("effect_requested", player_death_effect, position)
 		queue_free()

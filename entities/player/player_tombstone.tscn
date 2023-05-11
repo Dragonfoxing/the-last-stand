@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bel8m3xay7wtg"]
+
+[ext_resource type="Texture2D" uid="uid://dtl6fw1pxrbh0" path="res://assets/processed/TheLastStandREXPAINT.png" id="1_wautd"]
+[ext_resource type="PackedScene" uid="uid://d0ge4cruhck5b" path="res://entities/particles/simple_hit_particles.tscn" id="2_l51vh"]
+
+[node name="player_tombstone" type="Sprite2D"]
+self_modulate = Color(0.54902, 0.54902, 0.54902, 1)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_wautd")
+region_enabled = true
+region_rect = Rect2(80, 48, 16, 16)
+region_filter_clip_enabled = true
+
+[node name="SimpleHitParticles" parent="." instance=ExtResource("2_l51vh")]
+scale_amount_min = 4.0
+scale_amount_max = 5.0
+color = Color(0.909016, 0.157282, 0.256218, 1)

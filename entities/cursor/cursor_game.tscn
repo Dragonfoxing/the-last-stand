@@ -1,14 +1,21 @@
 [gd_scene load_steps=3 format=3 uid="uid://ckq5md7h0qdmq"]
 
-[ext_resource type="Texture2D" uid="uid://dxs3r8nms5a60" path="res://assets/MRMOTEXT x3 v1.1/MRMOTEXT-x3.png" id="1_myree"]
 [ext_resource type="Script" path="res://entities/cursor/cursor.gd" id="1_vbdfn"]
+[ext_resource type="Texture2D" uid="uid://dtl6fw1pxrbh0" path="res://assets/processed/TheLastStandREXPAINT.png" id="2_6obct"]
 
 [node name="cursor_game" type="Node2D"]
 script = ExtResource("1_vbdfn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.33, 0.33)
-texture = ExtResource("1_myree")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_6obct")
 region_enabled = true
-region_rect = Rect2(529, 288, 71, 72)
+region_rect = Rect2(0, 160, 32, 32)
+region_filter_clip_enabled = true
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_6obct")
+region_enabled = true
+region_rect = Rect2(164, 54, 6, 6)
 region_filter_clip_enabled = true

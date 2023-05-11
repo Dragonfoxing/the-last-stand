@@ -2,6 +2,9 @@ extends GameEntity2D
 
 @export var target : Node2D
 @export var speed : float = 40
+
+@export var death_particles : PackedScene
+
 var dead : bool = false
 
 func _ready():
@@ -40,6 +43,9 @@ func _physics_process(delta):
 						collider.emit_signal("Collided", self)
 						
 						dead = true
+						
+						GameSignals.emit_signal("effect_requested", death_particles, position)
+						
 						queue_free()
 				
 	else:
@@ -47,6 +53,14 @@ func _physics_process(delta):
 		# in more complicated cases, we want alternate behavior rather than this.
 		set_physics_process(false)
 
+func spawn_death_particles():
+	var particles = death_particles.instantiate()
+	add_child(particles)
+	particles.set_as_top_level(true)
+	particles.position = position
+	particles.emitting = true
+	
+	
 # all of our logic is in physics_process so we don't need code here.
 func _on_collided(obj : GameEntity2D):
 	pass
