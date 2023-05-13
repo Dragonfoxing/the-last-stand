@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxricl6vt22rv"]
+[gd_scene load_steps=6 format=3 uid="uid://dxricl6vt22rv"]
 
 [ext_resource type="Script" path="res://entities/enemy/enemy_follower.gd" id="1_bv28l"]
 [ext_resource type="PackedScene" uid="uid://d0ge4cruhck5b" path="res://entities/particles/simple_hit_particles.tscn" id="2_8npww"]
 [ext_resource type="Texture2D" uid="uid://dtl6fw1pxrbh0" path="res://assets/processed/TheLastStandREXPAINT.png" id="2_ijd6o"]
+[ext_resource type="AudioStream" uid="uid://dqlm5lwnbyubn" path="res://assets/sounds/JSFXR_HitHurt.wav" id="4_xvd36"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ibwbn"]
 radius = 7.0
@@ -23,3 +24,8 @@ region_filter_clip_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ibwbn")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_xvd36")
+max_distance = 1000.0
+panning_strength = 0.0

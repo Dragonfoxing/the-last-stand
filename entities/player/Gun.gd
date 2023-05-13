@@ -70,6 +70,8 @@ func spawn_bullet():
 		
 		_update_label()
 		
+		$AudioStreamPlayer2D.play()
+		
 		if(ammo_cur == 0 and canReload):
 			reloading = true
 			reload_time_cur = 0

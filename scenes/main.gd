@@ -83,7 +83,10 @@ func _physics_process(delta):
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"): _send_quit_request()
-	elif event.is_action_pressed("reload_scene"): get_tree().reload_current_scene()
+	elif event.is_action_pressed("reload_scene"): 
+		$AudioStreamPlayer2D.play()
+		await $AudioStreamPlayer2D.finished
+		get_tree().reload_current_scene()
 	
 # This lets the game handle any custom quit functionality.
 # In theory every notification handler will be called before we quit(0)

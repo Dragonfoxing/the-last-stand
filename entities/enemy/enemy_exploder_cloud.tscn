@@ -27,4 +27,7 @@ autostart = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_jbutf")
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+max_distance = 1000.0
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

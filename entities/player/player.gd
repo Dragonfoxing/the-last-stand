@@ -39,9 +39,11 @@ func _check_collisions():
 	
 	for i in count:
 		var col = get_slide_collision(i)
-		var collider = col.get_collider()
 		
-		if(collider.tag and collider.tag == "explosion"): _on_death()
+		if(is_instance_valid(col) and is_instance_valid(col.get_collider())):
+			var collider = col.get_collider()
+			
+			if(collider.tag and collider.tag == "explosion"): _on_death()
 	
 func _check_flip_animation():
 	if(!right && velocity.x > 0):
@@ -59,10 +61,15 @@ func _check_if_moving_to_limit():
 	elif(position.y > limit.y - height): position.y = limit.y - height;
 
 func _on_collided(obj : GameEntity2D):
-	if(obj.team == "enemy" and not god_mode): _on_death()
+	if(is_instance_valid(obj) and obj.team == "enemy" and not god_mode): _on_death()
 
 func _on_death():
 	GameSignals.emit_signal("effect_requested", player_death_effect, position)
+	$AudioStreamPlayer2D.play()
+	set_physics_process(false)
+	$Gun.queue_free()
+	$Sprites/Sprite2D.queue_free()
+	await $AudioStreamPlayer2D.finished
 	queue_free()
 	
 func _on_killed_enemy():
