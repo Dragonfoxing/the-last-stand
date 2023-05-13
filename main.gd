@@ -10,7 +10,7 @@ var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
 @export var spawnCurve : Curve
 
-@export var enemies : Array[PackedScene]
+@export var enemies : Array[EnemyListing]
 
 var tick_spawn_cur : int = 0
 var tick_spawn_length : int = 30
@@ -29,6 +29,17 @@ func _reset_entities():
 	GameDifficulty.start()
 	
 func _spawn_entity():
+	var enemyChoice = rng.randf_range(0, 1)
+	
+	for listing in enemies:
+		if(enemyChoice >= listing.spawn_range.x and enemyChoice < listing.spawn_range.y):
+			var enemy = listing.scene.instantiate()
+			enemy.position = _get_random_position_for_entity()
+			enemy.target = player
+			enemy.speed = enemy.speed * (1 + GameDifficulty.scale / 4)
+			add_child(enemy)
+			
+func __spawn_entity():
 	var count = enemies.size()
 	
 	if(count == 0):

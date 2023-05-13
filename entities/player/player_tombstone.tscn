@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bel8m3xay7wtg"]
+[gd_scene load_steps=4 format=3 uid="uid://bel8m3xay7wtg"]
 
 [ext_resource type="Texture2D" uid="uid://dtl6fw1pxrbh0" path="res://assets/processed/TheLastStandREXPAINT.png" id="1_wautd"]
 [ext_resource type="PackedScene" uid="uid://d0ge4cruhck5b" path="res://entities/particles/simple_hit_particles.tscn" id="2_l51vh"]
+[ext_resource type="LabelSettings" uid="uid://qca0oki7xds" path="res://assets/new_label_settings.tres" id="3_7g0qk"]
 
 [node name="player_tombstone" type="Sprite2D"]
 self_modulate = Color(0.54902, 0.54902, 0.54902, 1)
@@ -15,3 +16,14 @@ region_filter_clip_enabled = true
 scale_amount_min = 4.0
 scale_amount_max = 5.0
 color = Color(0.909016, 0.157282, 0.256218, 1)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -74.6667
+offset_top = 8.0
+offset_right = 75.3333
+offset_bottom = 54.0
+text = "You died!  Git gud.
+Press R to try again."
+label_settings = ExtResource("3_7g0qk")
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true

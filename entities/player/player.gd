@@ -14,9 +14,12 @@ extends GameEntity2D
 @export var player_death_effect : PackedScene
 var right : bool = false;
 
+@onready var the_gun = get_node("%Gun")
+
 func _ready():
 	team = "player"
 	connect("Collided", _on_collided)
+	GameSignals.connect("player_killed_enemy", _on_killed_enemy)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -26,8 +29,7 @@ func _physics_process(delta):
 
 	velocity = (dir.normalized() * (speed * (1 + GameDifficulty.scale/8)))
 	
-	move_and_slide()
-	#if move_and_slide(): _check_collisions()
+	if move_and_slide(): _check_collisions()
 	
 	_check_flip_animation()
 	_check_if_moving_to_limit()
@@ -38,6 +40,8 @@ func _check_collisions():
 	for i in count:
 		var col = get_slide_collision(i)
 		var collider = col.get_collider()
+		
+		if(collider.tag and collider.tag == "explosion"): _on_death()
 	
 func _check_flip_animation():
 	if(!right && velocity.x > 0):
@@ -55,6 +59,11 @@ func _check_if_moving_to_limit():
 	elif(position.y > limit.y - height): position.y = limit.y - height;
 
 func _on_collided(obj : GameEntity2D):
-	if(obj.team == "enemy" and not god_mode):
-		GameSignals.emit_signal("effect_requested", player_death_effect, position)
-		queue_free()
+	if(obj.team == "enemy" and not god_mode): _on_death()
+
+func _on_death():
+	GameSignals.emit_signal("effect_requested", player_death_effect, position)
+	queue_free()
+	
+func _on_killed_enemy():
+	the_gun.add_ammo(1)

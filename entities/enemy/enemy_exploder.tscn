@@ -1,12 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://00qkkh60opxb"]
+[gd_scene load_steps=5 format=3 uid="uid://bayqycfg3etgb"]
 
-[ext_resource type="Texture2D" uid="uid://dxs3r8nms5a60" path="res://assets/MRMOTEXT x3 v1.1/MRMOTEXT-x3.png" id="1_t2uy2"]
+[ext_resource type="Script" path="res://entities/enemy/enemy_follower.gd" id="1_ojyyp"]
+[ext_resource type="PackedScene" uid="uid://de3u0snxvcuqh" path="res://entities/enemy/enemy_exploder_cloud.tscn" id="2_jut0f"]
+[ext_resource type="Texture2D" uid="uid://dtl6fw1pxrbh0" path="res://assets/processed/TheLastStandREXPAINT.png" id="3_kya3g"]
 
-[node name="enemy_exploder" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ibwbn"]
+radius = 7.0
+
+[node name="enemy_exploder" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 8
+collision_mask = 15
+script = ExtResource("1_ojyyp")
+death_particles = ExtResource("2_jut0f")
+tag = "exploder"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.898039, 0.2, 0.294118, 1)
-texture = ExtResource("1_t2uy2")
+modulate = Color(0.898039, 0.462745, 0.294118, 1)
+texture = ExtResource("3_kya3g")
 region_enabled = true
-region_rect = Rect2(96, 480, 24, 24)
+region_rect = Rect2(52, 34, 12, 14)
 region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ibwbn")

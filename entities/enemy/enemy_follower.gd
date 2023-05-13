@@ -9,6 +9,7 @@ var dead : bool = false
 
 func _ready():
 	team = "enemy"
+	
 	connect("Collided", _on_collided)
 	
 func _physics_process(delta):
@@ -30,24 +31,37 @@ func _physics_process(delta):
 				var col = get_slide_collision(i)
 				
 				var collider = col.get_collider() as GameEntity2D
-				
+				if not collider:
+					collider = col.get_collider() as StaticEntity2D
+					
 				# There was a bug with just doing queue_free() - it will still
 				# loop through other collision checks b/c it's not quite gone yet.
 				# so we use `and not dead` to make sure we don't duplicate score or calls.
 				
 				if(is_instance_valid(collider) and not dead):
-					if(collider.tag == "bullet" or collider.team == "player"):
+					if(collider.team == "player"):
+						dead = true
+						
 						if(collider.tag == "bullet"):
 							GameDifficulty.add_score(1)
+							GameSignals.emit_signal("player_killed_enemy")
 							
 						collider.emit_signal("Collided", self)
 						
-						dead = true
+						
 						
 						GameSignals.emit_signal("effect_requested", death_particles, position)
 						
 						queue_free()
-				
+					elif(collider.tag == "explosion"):
+						dead = true
+						
+						GameDifficulty.add_score(1)
+						GameSignals.emit_signal("player_killed_enemy")
+							
+						GameSignals.emit_signal("effect_requested", death_particles, position)
+						
+						queue_free()
 	else:
 		# if the player is dead, we stop processing physics.
 		# in more complicated cases, we want alternate behavior rather than this.

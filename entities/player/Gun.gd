@@ -10,6 +10,7 @@ var tick_cur : int = 0
 
 var shooting : bool = false
 
+@export var canReload : bool = true
 var reloading : bool = false
 var reload_time_max : float = 1.5
 var reload_time_cur : float = 0
@@ -40,7 +41,7 @@ func _input(event):
 		shooting = false
 	
 func spawn_bullet():
-	if(ammo_cur == 0 and reloading):
+	if(ammo_cur == 0):
 		return
 	else:
 		# start by setting the direction.
@@ -69,9 +70,16 @@ func spawn_bullet():
 		
 		_update_label()
 		
-		if(ammo_cur == 0):
+		if(ammo_cur == 0 and canReload):
 			reloading = true
 			reload_time_cur = 0
 
 func _update_label():
 	ammo_label.text = str(ammo_cur)
+
+func add_ammo(count : int):
+	ammo_cur = clamp(ammo_cur + count, 0, ammo_max)
+	_update_label()
+	
+func _on_ammo_return():
+	add_ammo(1)

@@ -1,13 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://cbgtoctj4aif5"]
+[gd_scene load_steps=19 format=3 uid="uid://cbgtoctj4aif5"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_epwk6"]
 [ext_resource type="PackedScene" uid="uid://dfbuxqaver7t1" path="res://entities/player/player.tscn" id="1_i15vm"]
+[ext_resource type="Script" path="res://lib/EnemyListing.gd" id="2_00nr2"]
 [ext_resource type="Texture2D" uid="uid://dxs3r8nms5a60" path="res://assets/MRMOTEXT x3 v1.1/MRMOTEXT-x3.png" id="3_n1g5c"]
 [ext_resource type="Script" path="res://Camera2DFollowTarget.gd" id="4_qb77m"]
 [ext_resource type="PackedScene" uid="uid://dsd7j140lneba" path="res://lib/EffectsManager.tscn" id="4_qec02"]
 [ext_resource type="PackedScene" uid="uid://ckq5md7h0qdmq" path="res://entities/cursor/cursor_game.tscn" id="5_ur3us"]
 [ext_resource type="PackedScene" uid="uid://dxricl6vt22rv" path="res://entities/enemy/enemy_follower.tscn" id="6_8h6cr"]
 [ext_resource type="Script" path="res://GameUIController.gd" id="6_hdqc8"]
+[ext_resource type="PackedScene" uid="uid://bayqycfg3etgb" path="res://entities/enemy/enemy_exploder.tscn" id="6_x4166"]
 [ext_resource type="FontFile" uid="uid://c44j3iaivab0m" path="res://assets/fonts/BitPotion.ttf" id="7_lpf3s"]
 [ext_resource type="Script" path="res://SpawnBoundaryBox.gd" id="7_y4hf6"]
 
@@ -16,6 +18,16 @@ min_value = 1.0
 max_value = 30.0
 _data = [Vector2(0, 1), 0.0, 6.531, 0, 0, Vector2(1, 30), 91.9563, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="Resource" id="Resource_bntvn"]
+script = ExtResource("2_00nr2")
+scene = ExtResource("6_8h6cr")
+spawn_range = Vector2(0, 0.9)
+
+[sub_resource type="Resource" id="Resource_hlm6p"]
+script = ExtResource("2_00nr2")
+scene = ExtResource("6_x4166")
+spawn_range = Vector2(0.9, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_diuv3"]
 texture = ExtResource("3_n1g5c")
@@ -163,7 +175,7 @@ camera = NodePath("Camera2D")
 spawnBoundary = NodePath("SpawnBoundaryBox")
 spawnDistance = 150
 spawnCurve = SubResource("Curve_y3gja")
-enemies = Array[PackedScene]([ExtResource("6_8h6cr")])
+enemies = Array[ExtResource("2_00nr2")]([SubResource("Resource_bntvn"), SubResource("Resource_hlm6p")])
 
 [node name="Background" type="TileMap" parent="."]
 position = Vector2(400, 300)
@@ -179,7 +191,6 @@ layer_0/tile_data = PackedInt32Array(786448, 0, 0, 720912, 0, 0, 655376, 0, 0, 5
 top_level = true
 position = Vector2(400, 300)
 speed = 70
-god_mode = true
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
 position = Vector2(400, 300)

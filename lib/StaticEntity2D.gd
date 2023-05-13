@@ -1,5 +1,5 @@
-extends CharacterBody2D
-class_name GameEntity2D
+extends StaticBody2D
+class_name StaticEntity2D
 
 signal Collided(obj : PhysicsBody2D)
 

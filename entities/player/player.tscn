@@ -30,8 +30,10 @@ region_filter_clip_enabled = true
 shape = SubResource("CapsuleShape2D_pgsga")
 
 [node name="Gun" type="Node2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("4_arcya")
 bullet_prefab = ExtResource("2_gb87y")
+canReload = false
 
 [node name="Label" type="Label" parent="Gun"]
 offset_left = -3.0
