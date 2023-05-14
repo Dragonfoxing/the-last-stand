@@ -82,7 +82,7 @@ func _physics_process(delta):
 		GameDifficulty.pause()
 	
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_cancel"): _send_quit_request()
+	if event.is_action_pressed("ui_cancel") and not OS.has_feature("web"): _send_quit_request()
 	elif event.is_action_pressed("reload_scene"): 
 		$AudioStreamPlayer2D.play()
 		await $AudioStreamPlayer2D.finished

@@ -8,6 +8,6 @@ func _input(event):
 		await $AudioStreamPlayer2D.finished
 		get_tree().change_scene_to_packed(gameScene)
 		pass
-	elif(event.is_action_pressed("ui_cancel")):
+	elif(event.is_action_pressed("ui_cancel") and not OS.has_feature("web")):
 		get_tree().get_root().propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 		get_tree().quit(0)
