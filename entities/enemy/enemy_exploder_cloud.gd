@@ -11,8 +11,16 @@ func _ready():
 	
 func _physics_process(delta):
 	print(velocity)
-	move_and_collide(velocity * delta * 0.5)
+	move_and_collide(velocity * delta * 0.8)
 
 func _on_timer_timeout():
 	set_physics_process(false)
 	queue_free()
+
+func pause():
+	set_physics_process(false)
+	$Timer.paused = true
+	
+func unpause():
+	set_physics_process(true)
+	$Timer.paused = false

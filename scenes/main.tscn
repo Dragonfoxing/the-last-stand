@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cy6rfpvasgksn"]
+[gd_scene load_steps=22 format=3 uid="uid://cy6rfpvasgksn"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_cvp3x"]
 [ext_resource type="PackedScene" uid="uid://dxricl6vt22rv" path="res://entities/enemy/enemy_follower.tscn" id="2_nm7qa"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://lib/SpawnBoundaryBox.gd" id="12_nsk8s"]
 [ext_resource type="AudioStream" uid="uid://bxymghkgx1f3i" path="res://assets/sounds/JSFXR_PowerUp.wav" id="13_mt235"]
 [ext_resource type="Script" path="res://scenes/EnemySpawner.gd" id="14_gosxl"]
+[ext_resource type="PackedScene" uid="uid://eobovgfxw36t" path="res://scenes/screens/PauseScreen.tscn" id="15_0xfpy"]
 
 [sub_resource type="Curve" id="Curve_y3gja"]
 min_value = 1.0
@@ -238,10 +239,6 @@ layout_mode = 2
 text = "Score:"
 label_settings = SubResource("LabelSettings_ctn3s")
 
-[node name="cursor_game" parent="." instance=ExtResource("11_kamss")]
-top_level = true
-position = Vector2(313, 264)
-
 [node name="SpawnBoundaryBox" type="Marker2D" parent="."]
 script = ExtResource("12_nsk8s")
 
@@ -251,3 +248,10 @@ panning_strength = 0.0
 
 [node name="Marker2D" type="Marker2D" parent="."]
 script = ExtResource("14_gosxl")
+
+[node name="PauseScreen" parent="." instance=ExtResource("15_0xfpy")]
+visible = false
+
+[node name="cursor_game" parent="." instance=ExtResource("11_kamss")]
+top_level = true
+position = Vector2(313, 264)

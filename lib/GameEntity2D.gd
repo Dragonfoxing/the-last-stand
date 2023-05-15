@@ -8,3 +8,9 @@ signal Collided(obj : PhysicsBody2D)
 
 # is it an enemy or a player object, or neutral?
 @export var team : String
+
+func pause():
+	set_physics_process(false)
+	
+func unpause():
+	set_physics_process(true)

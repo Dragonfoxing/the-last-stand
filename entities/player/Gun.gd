@@ -58,7 +58,7 @@ func spawn_bullet():
 		bill.set_as_top_level(true)
 		
 		bill.set_collision_layer(4)
-		bill.set_collision_mask(8+16)
+		#bill.set_collision_mask(8+16)
 		bill.team = "player"
 		
 		# Owner.position here b/c Gun's position is (0,0)

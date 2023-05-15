@@ -12,6 +12,10 @@ var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
 @export var enemies : Array[EnemyListing]
 
+@onready var SCREEN_PAUSE = $PauseScreen
+
+var FLAG_GAME_PAUSED : bool = false
+
 var tick_spawn_cur : int = 0
 var tick_spawn_length : int = 30
 var tick_spawn_length_max : int = tick_spawn_length
@@ -39,18 +43,6 @@ func _spawn_entity():
 			enemy.speed = enemy.speed * (1 + GameDifficulty.scale / 4)
 			add_child(enemy)
 			
-func __spawn_entity():
-	var count = enemies.size()
-	
-	if(count == 0):
-		return
-	else:
-		var enemyChoice = rng.randi_range(0, count-1)
-		var enemy : GameEntity2D = enemies[enemyChoice].instantiate()
-		enemy.position = _get_random_position_for_entity()
-		enemy.target = player
-		enemy.speed = enemy.speed * (1 + GameDifficulty.scale / 4)
-		add_child(enemy)
 	
 func _get_random_position_for_entity():
 	var _x = spawnBoundary.xBound
@@ -67,7 +59,7 @@ func _get_random_vector_in_bounds(_x, _y):
 	return Vector2(rng.randf_range(_x.start, _x.end), rng.randf_range(_y.start, _y.end))
 	
 func _physics_process(delta):
-	if(is_instance_valid(player)):
+	if(is_instance_valid(player) and not FLAG_GAME_PAUSED):
 		spawnBoundary.position = player.position
 		
 		tick_spawn_cur += 1
@@ -82,9 +74,23 @@ func _physics_process(delta):
 		GameDifficulty.pause()
 	
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_cancel") and not OS.has_feature("web"): _send_quit_request()
+	if event.is_action_pressed("ui_cancel") and is_instance_valid(player):
+		if(not FLAG_GAME_PAUSED):
+			FLAG_GAME_PAUSED = true
+			get_tree().call_group("game_entities", "pause")
+			SCREEN_PAUSE.show()
+			GameDifficulty.pause()
+		elif(FLAG_GAME_PAUSED):
+			FLAG_GAME_PAUSED = false
+			get_tree().call_group("game_entities", "unpause")
+			SCREEN_PAUSE.hide()
+			GameDifficulty.start()
+			
 	elif event.is_action_pressed("reload_scene"): 
 		$AudioStreamPlayer2D.play()
+		SCREEN_PAUSE.hide()
+		GameDifficulty.pause()
+		get_tree().call_group("game_entities", "pause")
 		await $AudioStreamPlayer2D.finished
 		get_tree().reload_current_scene()
 	

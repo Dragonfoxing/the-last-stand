@@ -18,7 +18,7 @@ func _physics_process(delta):
 		
 		# dir.normalized() would make this speed constant
 		# let's try it without! :D
-		velocity = dir * delta * speed
+		velocity = dir.normalized() * delta * speed * 50
 		
 		# move ourself and check if we collided with anything
 		var collided = move_and_slide()
@@ -28,7 +28,7 @@ func _physics_process(delta):
 			var count = get_slide_collision_count()
 			
 			if count > 0:
-				for i in count:
+				for i in count-1:
 					var col = get_slide_collision(i)
 					
 					if(is_instance_valid(col) and is_instance_valid(col.get_collider())):
