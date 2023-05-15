@@ -6,9 +6,15 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_jbutf"]
 radius = 17.0
 
-[node name="enemy_exploder_cloud" type="StaticBody2D"]
+[node name="enemy_exploder_cloud" type="CharacterBody2D"]
 collision_layer = 10
-collision_mask = 10
+collision_mask = 0
+motion_mode = 1
+slide_on_ceiling = false
+floor_stop_on_slope = false
+floor_block_on_wall = false
+platform_on_leave = 2
+platform_floor_layers = 4294967264
 script = ExtResource("1_2x4vx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

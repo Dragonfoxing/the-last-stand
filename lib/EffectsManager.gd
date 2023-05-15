@@ -5,12 +5,16 @@ var explosion_scene : PackedScene = preload("res://entities/particles/simple_hit
 func _ready():
 	GameSignals.connect("effect_requested", create_effect)
 	
-func create_effect(sfx : PackedScene, pos : Vector2):
-	var explode = sfx.instantiate()
-	explode.position = pos
+func create_effect(sfx : PackedScene, pos : Vector2, values : Dictionary = {}):
+	var effect = sfx.instantiate()
+	effect.position = pos
 	
-	add_child(explode)
-	explode.set_as_top_level(true)
+	add_child(effect)
+	effect.set_as_top_level(true)
 	
-	if("emitting" in explode):
-		explode.emitting = true
+	print(values)
+
+	for value in values:
+		if value in effect:
+			effect[value] = values[value]
+			print(effect[value])

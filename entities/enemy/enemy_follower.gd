@@ -50,9 +50,12 @@ func _physics_process(delta):
 									
 								collider.emit_signal("Collided", self)
 								
+								var options = {
+									"emitting": true,
+									"velocity": dir.normalized() * speed
+								}
 								
-								
-								GameSignals.emit_signal("effect_requested", death_particles, position)
+								GameSignals.emit_signal("effect_requested", death_particles, position, options)
 								
 								$Sprite2D.queue_free()
 								$AudioStreamPlayer2D.play()
@@ -63,8 +66,13 @@ func _physics_process(delta):
 								
 								GameDifficulty.add_score(1)
 								GameSignals.emit_signal("player_killed_enemy")
-									
-								GameSignals.emit_signal("effect_requested", death_particles, position)
+								
+								var options = {
+									"emitting": true,
+									"velocity": dir.normalized() * speed
+								}
+								
+								GameSignals.emit_signal("effect_requested", death_particles, position, options)
 								
 								$Sprite2D.queue_free()
 								$AudioStreamPlayer2D.play()

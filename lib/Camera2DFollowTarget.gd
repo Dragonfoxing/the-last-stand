@@ -6,7 +6,7 @@ extends Camera2D
 var visual_boundary : RectangleShape2D
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if(is_instance_valid(target)):
 		if(target.position != position): position = target.position
 	else:
