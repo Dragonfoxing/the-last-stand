@@ -9,7 +9,7 @@ func create_effect(sfx : PackedScene, pos : Vector2, values : Dictionary = {}):
 	var effect = sfx.instantiate()
 	effect.position = pos
 	
-	add_child(effect)
+	call_deferred("add_child", effect)
 	effect.set_as_top_level(true)
 	
 	print(values)

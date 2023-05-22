@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name GameEntity2D
 
-signal Collided(obj : PhysicsBody2D)
+signal Collided(obj : Area2D)
 
 # tag metadata, useful for debugging.
 @export var tag : String

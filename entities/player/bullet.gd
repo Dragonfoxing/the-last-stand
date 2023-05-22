@@ -14,16 +14,8 @@ func _physics_process(delta):
 	if(tick_expiration_cur >= tick_expiration_max):
 		queue_free()
 		
-	var collided = move_and_slide()
-	
-	if(collided):
-		var count = get_slide_collision_count()
-		
-		for i in count:
-			var collision = get_slide_collision(i)
-			var collider = collision.get_collider()
-			# do something with this profane knowledge
-	pass
+	move_and_slide()
 
-func on_collided(obj : GameEntity2D):
+func on_collided(obj : Area2D):
+	# do collision logic here instead of in physics process
 	queue_free()

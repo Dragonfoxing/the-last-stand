@@ -10,7 +10,7 @@ radius = 7.0
 
 [node name="enemy_exploder" type="CharacterBody2D" groups=["enemy", "game_entities"]]
 collision_layer = 8
-collision_mask = 15
+collision_mask = 11
 script = ExtResource("1_ojyyp")
 death_particles = ExtResource("2_jut0f")
 tag = "exploder"
@@ -24,8 +24,17 @@ region_filter_clip_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ibwbn")
+debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_7kwbt")
 max_distance = 1000.0
 panning_strength = 0.0
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_ibwbn")
+debug_color = Color(0.821248, 0.130297, 0.161896, 0.419608)
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_collided"]

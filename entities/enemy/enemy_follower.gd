@@ -6,6 +6,7 @@ extends GameEntity2D
 @export var death_particles : PackedScene
 
 var dead : bool = false
+var dir : Vector2
 
 func _ready():
 	team = "enemy"
@@ -13,84 +14,51 @@ func _ready():
 	connect("Collided", _on_collided)
 	
 func _physics_process(delta):
-	if(is_instance_valid(target)):
-		var dir = target.position - position
+	if(is_instance_valid(target) and not dead):
+		dir = target.position - position
 		
 		# dir.normalized() would make this speed constant
 		# let's try it without! :D
-		velocity = dir.normalized() * delta * speed * 50
+		velocity = dir * delta * speed
 		
-		# move ourself and check if we collided with anything
-		var collided = move_and_slide()
-		
-		if(collided):
-			# get the number of collisions and start looping through them for relevant tags
-			var count = get_slide_collision_count()
-			
-			if count > 0:
-				for i in count-1:
-					var col = get_slide_collision(i)
-					
-					if(is_instance_valid(col) and is_instance_valid(col.get_collider())):
-						var collider = col.get_collider() as GameEntity2D
-						if not collider:
-							collider = col.get_collider() as StaticEntity2D
-							
-						# There was a bug with just doing queue_free() - it will still
-						# loop through other collision checks b/c it's not quite gone yet.
-						# so we use `and not dead` to make sure we don't duplicate score or calls.
-						
-						if(is_instance_valid(collider) and not dead):
-							if(collider.team == "player"):
-								dead = true
-								
-								if(collider.tag == "bullet"):
-									GameDifficulty.add_score(1)
-									GameSignals.emit_signal("player_killed_enemy")
-									
-								collider.emit_signal("Collided", self)
-								
-								var options = {
-									"emitting": true,
-									"velocity": dir.normalized() * speed
-								}
-								
-								GameSignals.emit_signal("effect_requested", death_particles, position, options)
-								
-								$Sprite2D.queue_free()
-								$AudioStreamPlayer2D.play()
-								await $AudioStreamPlayer2D.finished
-								queue_free()
-							elif(collider.tag == "explosion"):
-								dead = true
-								
-								GameDifficulty.add_score(1)
-								GameSignals.emit_signal("player_killed_enemy")
-								
-								var options = {
-									"emitting": true,
-									"velocity": dir.normalized() * speed
-								}
-								
-								GameSignals.emit_signal("effect_requested", death_particles, position, options)
-								
-								$Sprite2D.queue_free()
-								$AudioStreamPlayer2D.play()
-								await $AudioStreamPlayer2D.finished
-								queue_free()
-	else:
-		# if the player is dead, we stop processing physics.
-		# in more complicated cases, we want alternate behavior rather than this.
-		set_physics_process(false)
-
-func spawn_death_particles():
-	var particles = death_particles.instantiate()
-	add_child(particles)
-	particles.set_as_top_level(true)
-	particles.position = position
-	particles.emitting = true
-	
+		move_and_slide()
 	
 # all of our logic is in physics_process so we don't need code here.
-func _on_collided(obj : GameEntity2D):
-	pass
+func _on_collided(obj : Area2D):
+	var col = obj.owner as GameEntity2D
+	
+	if col.team != "enemy":
+		_on_death(col)
+
+func _on_death(col : GameEntity2D):
+	# Stop processing move_and_slide
+	set_physics_process(false)
+	
+	# Make sure our hitbox isn't used to register collisions
+	$Hitbox.set_collision_layer(0)
+	$Hitbox.set_collision_mask(0)
+	
+	# disable collisions by setting the bitmask for layer and mask to 0
+	set_collision_layer(0)
+	set_collision_mask(0)
+	
+	# Assign points only if it's right to do so
+	if col.tag == "bullet" or col.tag == "explosion":
+		GameDifficulty.add_score(1)
+		GameSignals.emit_signal("player_killed_enemy")
+	
+	# set up the options for spawning effects
+	# we include the velocity for effects that might need that
+	var options = {
+		"emitting": true,
+		"velocity": dir.normalized() * speed
+	}
+	
+	# send out the request for death effect spawn
+	GameSignals.emit_signal("effect_requested", death_particles, position, options)
+	
+	# Disable the visuals for this enemy and clear the enemy when audio is done playing
+	$Sprite2D.queue_free()
+	$AudioStreamPlayer2D.play()
+	await $AudioStreamPlayer2D.finished
+	queue_free()

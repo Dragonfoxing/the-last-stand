@@ -6,7 +6,7 @@
 offsets = PackedFloat32Array(0, 0.502857, 1)
 colors = PackedColorArray(0.964742, 0.964742, 0.964742, 1, 0.76662, 0.76662, 0.76662, 1, 0, 0, 0, 0)
 
-[node name="SimpleHitParticles" type="CPUParticles2D"]
+[node name="SimpleHitParticles" type="CPUParticles2D" groups=["game_entities", "particles"]]
 emitting = false
 amount = 20
 lifetime = 0.75

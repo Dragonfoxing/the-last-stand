@@ -29,7 +29,9 @@ func _physics_process(delta):
 
 	velocity = (dir.normalized() * (speed * (1 + GameDifficulty.scale/8)))
 	
-	if move_and_slide(): _check_collisions()
+	#if move_and_slide(): _check_collisions()
+	
+	move_and_slide()
 	
 	_check_flip_animation()
 	_check_if_moving_to_limit()
@@ -43,7 +45,7 @@ func _check_collisions():
 		if(is_instance_valid(col) and is_instance_valid(col.get_collider())):
 			var collider = col.get_collider()
 			
-			if(collider.tag and collider.tag == "explosion"): _on_death()
+			#if(collider.tag and collider.tag == "explosion"): _on_death()
 	
 func _check_flip_animation():
 	if(!right && velocity.x > 0):
@@ -60,8 +62,9 @@ func _check_if_moving_to_limit():
 	if(position.y < height): position.y = height;
 	elif(position.y > limit.y - height): position.y = limit.y - height;
 
-func _on_collided(obj : GameEntity2D):
-	if(is_instance_valid(obj) and obj.team == "enemy" and not god_mode): _on_death()
+func _on_collided(obj : Area2D):
+	var col = obj.owner as GameEntity2D
+	if(col.team == "enemy" or col.tag == "explosion"): _on_death()
 
 func _on_death():
 	GameSignals.emit_signal("effect_requested", player_death_effect, position)
