@@ -35,17 +35,6 @@ func _physics_process(delta):
 	
 	_check_flip_animation()
 	_check_if_moving_to_limit()
-
-func _check_collisions():
-	var count = get_slide_collision_count()
-	
-	for i in count:
-		var col = get_slide_collision(i)
-		
-		if(is_instance_valid(col) and is_instance_valid(col.get_collider())):
-			var collider = col.get_collider()
-			
-			#if(collider.tag and collider.tag == "explosion"): _on_death()
 	
 func _check_flip_animation():
 	if(!right && velocity.x > 0):
@@ -63,14 +52,15 @@ func _check_if_moving_to_limit():
 	elif(position.y > limit.y - height): position.y = limit.y - height;
 
 func _on_collided(obj : Area2D):
-	var col = obj.owner as GameEntity2D
-	if(col.team == "enemy" or col.tag == "explosion"): _on_death()
+	if(not god_mode):
+		var col = obj.owner as GameEntity2D
+		if(col.team == "enemy" or col.tag == "explosion"): _on_death()
 
 func _on_death():
 	GameSignals.emit_signal("effect_requested", player_death_effect, position)
 	$AudioStreamPlayer2D.play()
 	set_physics_process(false)
-	$Gun.queue_free()
+	#$Gun.queue_free()
 	$Sprites/Sprite2D.queue_free()
 	await $AudioStreamPlayer2D.finished
 	queue_free()

@@ -15,8 +15,18 @@ var reloading : bool = false
 var reload_time_max : float = 1.5
 var reload_time_cur : float = 0
 
+var paused : bool = false
+
 @onready var ammo_label = $Label
 
+func pause():
+	paused = true
+	set_physics_process(false)
+	
+func unpause():
+	paused = false
+	set_physics_process(false)
+	
 func _physics_process(delta):
 	if(reloading):
 		reload_time_cur += delta
@@ -33,12 +43,13 @@ func _physics_process(delta):
 			tick_cur = 0
 	
 func _input(event):
-	if(event.is_action_pressed("left_click") or event.is_action_pressed("ui_accept")):
-		spawn_bullet()
-		shooting = true
-	elif(event.is_action_released("left_click") or event.is_action_released("ui_accept")):
-		tick_cur = 0
-		shooting = false
+	if(not paused):
+		if(event.is_action_pressed("left_click") or event.is_action_pressed("ui_accept")):
+			spawn_bullet()
+			shooting = true
+		elif(event.is_action_released("left_click") or event.is_action_released("ui_accept")):
+			tick_cur = 0
+			shooting = false
 	
 func spawn_bullet():
 	if(ammo_cur == 0):

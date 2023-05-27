@@ -40,27 +40,26 @@ func _spawn_entity():
 			var enemy = listing.scene.instantiate()
 			enemy.position = _get_random_position_for_entity()
 			enemy.target = player
-			enemy.speed = enemy.speed * (1 + GameDifficulty.scale / 4)
+			#enemy.speed = enemy.speed * (1 + GameDifficulty.scale / 4)
+			enemy.speed = 0
 			add_child(enemy)
 			
 	
 func _get_random_position_for_entity():
-	var _x = spawnBoundary.xBound
-	var _y = spawnBoundary.yBound
-	var pos = _get_random_vector_in_bounds(_x, _y)
 	
-	while((pos.x <= player.position.x + spawnDistance and pos.x >= player.position.x - spawnDistance)
-	or (pos.y <= player.position.y + spawnDistance and pos.y >= player.position.y - spawnDistance)):
-		pos = _get_random_vector_in_bounds(_x, _y)
-		
-	return pos
-
-func _get_random_vector_in_bounds(_x, _y):
-	return Vector2(rng.randf_range(_x.start, _x.end), rng.randf_range(_y.start, _y.end))
+	var _xy = Vector2(rng.randf_range(-1, 1), rng.randf_range(-1, 1))
+	var _dist = Vector2(rng.randf_range(spawnBoundary.spawnDistance, spawnBoundary.boundsDistance), 0)
+	
+	var _pos = _dist.rotated(_xy.angle())
+	
+	print(_xy, _dist, _pos)
+	_pos += player.position
+	
+	return _pos
 	
 func _physics_process(delta):
 	if(is_instance_valid(player) and not FLAG_GAME_PAUSED):
-		spawnBoundary.position = player.position
+		#spawnBoundary.position = player.position
 		
 		tick_spawn_cur += 1
 		if(tick_spawn_cur >= tick_spawn_length - spawnCurve.sample(clamp(GameDifficulty.timer/300, 0, 1))):

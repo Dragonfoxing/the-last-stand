@@ -10,7 +10,6 @@ func _ready():
 	$AudioStreamPlayer2D.play()
 	
 func _physics_process(delta):
-	print(velocity)
 	move_and_collide(velocity * delta * 0.8)
 
 func _on_timer_timeout():

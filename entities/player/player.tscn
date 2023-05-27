@@ -35,7 +35,7 @@ region_filter_clip_enabled = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_pgsga")
 
-[node name="Gun" type="Node2D" parent="."]
+[node name="Gun" type="Node2D" parent="." groups=["game_entities"]]
 unique_name_in_owner = true
 script = ExtResource("4_arcya")
 bullet_prefab = ExtResource("2_gb87y")
